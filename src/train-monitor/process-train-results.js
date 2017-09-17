@@ -25,8 +25,10 @@ module.exports = function(results) {
         if (global.lastTrains) {
             // look for the train in the last set of trains where the status is different from before
             // if found add to the new arrays
+            var found = false;
             global.lastTrains.forEach((lastTrain) => {
                 if (lastTrain.train_uid === train.train_uid && lastTrain.status != train.status) {
+                    found = true;
                     if (train.status = 'LATE') {
                         newLateTrains.push(train);
                     } else if (train.status = 'CANCELLED') {
@@ -36,6 +38,15 @@ module.exports = function(results) {
                     }
                 }
             });
+            if (!found) {
+                if (train.status = 'LATE') {
+                    newLateTrains.push(train);
+                } else if (train.status = 'CANCELLED') {
+                    newCancelledTrains.push(train);
+                } else {
+                    newOntimeTrains.push(train);
+                }
+            }
         } else {
             // everything is new, so map
             newLateTrains = lateTrains;
