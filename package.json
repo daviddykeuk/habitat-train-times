@@ -1,0 +1,30 @@
+{
+    "name": "habitat-train-times",
+    "version": "1.0.0",
+    "description": "Monitors train times and raises events if they are late",
+    "main": "index.js",
+    "scripts": {
+        "start": "node server.js",
+        "test": "mocha ./test/*/*"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/daviddykeuk/habitat-train-times.git"
+    },
+    "keywords": [
+        "Trains",
+        "Network",
+        "Rail",
+        "Transport",
+        "API"
+    ],
+    "author": "David Dyke",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/daviddykeuk/habitat-train-times/issues"
+    },
+    "homepage": "https://github.com/daviddykeuk/habitat-train-times#readme",
+    "dependencies": {
+        "jetstream-microservice": "^0.1.3"
+    }
+}
