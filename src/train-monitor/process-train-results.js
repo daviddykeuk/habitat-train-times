@@ -27,7 +27,7 @@ module.exports = function(results) {
             global.lastTrains.forEach((lastTrain) => {
                 if (lastTrain.train_uid === train.train_uid) {
                     found = true;
-                    if (lastTrain.status != train.status) {
+                    if (lastTrain.status != train.status || lastTrain.expected_departure_time != train.expected_departure_time) {
                         if (train.status = 'LATE') {
                             newLateTrains.push(train);
                         } else if (train.status = 'CANCELLED') {
