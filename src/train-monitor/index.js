@@ -17,8 +17,18 @@ module.exports = function(args) {
             var processedTrains = trainProcessor(response);
 
             // emit events on the late trains
-            processedTrains.lateTrains.forEach((train) => {
+            processedTrains.newLateTrains.forEach((train) => {
                 args.eventEmitter.emit('train.late', train);
+            });
+
+            // emit events on the cancelled trains
+            processedTrains.newCancelledTrains.forEach((train) => {
+                args.eventEmitter.emit('train.cancelled', train);
+            });
+
+            // emit events on the on time trains
+            processedTrains.newOntimeTrains.forEach((train) => {
+                args.eventEmitter.emit('train.ontime', train);
             });
 
             setTimeout(run, 60000);
