@@ -8,10 +8,13 @@ describe('Processing train results...', () => {
         it('An array containing 12 late trains should return 12 late trains', () => {
             var processed = trainProcesser(helpers.liveStationResponse);
             assert(processed.lateTrains.length === 12);
-
+            assert(processed.newLateTrains.length === 12);
         });
-        it('An array containing no late trains should return no late trains', () => {
-
+        it('The second pass should not have any new late trains', () => {
+            trainProcesser(helpers.liveStationResponse);
+            var processed = trainProcesser(helpers.liveStationResponse);
+            assert(processed.lateTrains.length === 12);
+            assert(processed.newLateTrains.length === 0);
         });
     });
 

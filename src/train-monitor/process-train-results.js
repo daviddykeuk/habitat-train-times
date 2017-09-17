@@ -10,8 +10,6 @@ module.exports = function(results) {
     var newOntimeTrains = [];
     var newCancelledTrains = [];
 
-
-
     results.departures.all.forEach((train) => {
         if (train.status = 'LATE') {
             lateTrains.push(train);
@@ -27,14 +25,16 @@ module.exports = function(results) {
             // if found add to the new arrays
             var found = false;
             global.lastTrains.forEach((lastTrain) => {
-                if (lastTrain.train_uid === train.train_uid && lastTrain.status != train.status) {
+                if (lastTrain.train_uid === train.train_uid) {
                     found = true;
-                    if (train.status = 'LATE') {
-                        newLateTrains.push(train);
-                    } else if (train.status = 'CANCELLED') {
-                        newCancelledTrains.push(train);
-                    } else {
-                        newOntimeTrains.push(train);
+                    if (lastTrain.status != train.status) {
+                        if (train.status = 'LATE') {
+                            newLateTrains.push(train);
+                        } else if (train.status = 'CANCELLED') {
+                            newCancelledTrains.push(train);
+                        } else {
+                            newOntimeTrains.push(train);
+                        }
                     }
                 }
             });
