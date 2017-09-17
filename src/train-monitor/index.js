@@ -17,19 +17,19 @@ module.exports = function(args) {
             var processedTrains = trainProcessor(response);
 
             // emit events on the late trains
-            processedTrains.newLateTrains.forEach((train) => {
-                args.eventEmitter.emit('train.late', train);
-            });
+            if (processedTrains.newLateTrains.length > 0) {
+                args.eventEmitter.emit('trains.late', processedTrains.newLateTrains);
+            }
 
             // emit events on the cancelled trains
-            processedTrains.newCancelledTrains.forEach((train) => {
-                args.eventEmitter.emit('train.cancelled', train);
-            });
+            if (processedTrains.newCancelledTrains.length > 0) {
+                args.eventEmitter.emit('trains.cancelled', processedTrains.newCancelledTrains);
+            }
 
             // emit events on the on time trains
-            processedTrains.newOntimeTrains.forEach((train) => {
-                args.eventEmitter.emit('train.ontime', train);
-            });
+            if (processedTrains.newOntimeTrains.length > 0) {
+                args.eventEmitter.emit('trains.ontime', processedTrains.newOntimeTrains);
+            }
 
             setTimeout(run, 60000);
         }).catch((err) => {
