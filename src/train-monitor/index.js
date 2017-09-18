@@ -31,10 +31,10 @@ module.exports = function(args) {
                 args.eventEmitter.emit('trains.ontime', processedTrains.newOntimeTrains);
             }
 
-            setTimeout(run, 60000);
+            setTimeout(run, 60000 * 2);
         }).catch((err) => {
             console.log("error %s", err)
-            setTimeout(run, 60000);
+            setTimeout(run, 60000 * 2);
         })
     };
 
