@@ -32,8 +32,6 @@ module.exports = function(results) {
                             newLateTrains.push(train);
                         } else if (train.status === 'CANCELLED') {
                             newCancelledTrains.push(train);
-                        } else {
-                            newOntimeTrains.push(train);
                         }
                     }
                 }
