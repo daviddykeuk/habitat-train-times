@@ -11,9 +11,9 @@ module.exports = function(results) {
     var newCancelledTrains = [];
 
     results.departures.all.forEach((train) => {
-        if (train.status = 'LATE') {
+        if (train.status === 'LATE') {
             lateTrains.push(train);
-        } else if (train.status = 'CANCELLED') {
+        } else if (train.status === 'CANCELLED') {
             cancelledTrains.push(train);
         } else {
             onTimeTrains.push(train);
@@ -28,9 +28,9 @@ module.exports = function(results) {
                 if (lastTrain.train_uid === train.train_uid) {
                     found = true;
                     if (lastTrain.status != train.status || lastTrain.expected_departure_time != train.expected_departure_time) {
-                        if (train.status = 'LATE') {
+                        if (train.status === 'LATE') {
                             newLateTrains.push(train);
-                        } else if (train.status = 'CANCELLED') {
+                        } else if (train.status === 'CANCELLED') {
                             newCancelledTrains.push(train);
                         } else {
                             newOntimeTrains.push(train);
@@ -39,12 +39,10 @@ module.exports = function(results) {
                 }
             });
             if (!found) {
-                if (train.status = 'LATE') {
+                if (train.status === 'LATE') {
                     newLateTrains.push(train);
-                } else if (train.status = 'CANCELLED') {
+                } else if (train.status === 'CANCELLED') {
                     newCancelledTrains.push(train);
-                } else {
-                    newOntimeTrains.push(train);
                 }
             }
         } else {
