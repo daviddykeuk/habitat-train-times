@@ -11,7 +11,11 @@ module.exports = function(results) {
     var newCancelledTrains = [];
 
     results.departures.all.forEach((train) => {
-        if (train.status === 'LATE') {
+
+        var howLate = parseInt(train.expected_departure_time.replace(":", "")) - parseInt(train.aimed_departure_time.replace(":", ""));
+        var bufferMinutes = process.env.MINUTES_TO_BE_LATE || 0;
+
+        if (train.status === 'LATE' && howLate > bufferMinutes) {
             lateTrains.push(train);
         } else if (train.status === 'CANCELLED') {
             cancelledTrains.push(train);
@@ -28,16 +32,19 @@ module.exports = function(results) {
                 if (lastTrain.train_uid === train.train_uid) {
                     found = true;
                     if (lastTrain.status != train.status || lastTrain.expected_departure_time != train.expected_departure_time) {
-                        if (train.status === 'LATE') {
+                        console.log(howLate);
+                        if (train.status === 'LATE' && howLate > bufferMinutes) {
                             newLateTrains.push(train);
                         } else if (train.status === 'CANCELLED') {
                             newCancelledTrains.push(train);
+                        } else {
+                            newOntimeTrains.push(train);
                         }
                     }
                 }
             });
             if (!found) {
-                if (train.status === 'LATE') {
+                if (train.status === 'LATE' && howLate > bufferMinutes) {
                     newLateTrains.push(train);
                 } else if (train.status === 'CANCELLED') {
                     newCancelledTrains.push(train);
@@ -46,7 +53,6 @@ module.exports = function(results) {
         } else {
             // everything is new, so map
             newLateTrains = lateTrains;
-            newOntimeTrains = onTimeTrains;
             newCancelledTrains = cancelledTrains;
         }
 
