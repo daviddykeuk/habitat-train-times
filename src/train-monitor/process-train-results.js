@@ -1,5 +1,4 @@
 const assert = require('assert');
-
 module.exports = function(results) {
     assert(results && results.departures && results.departures.all);
 
@@ -11,11 +10,7 @@ module.exports = function(results) {
     var newCancelledTrains = [];
 
     results.departures.all.forEach((train) => {
-
-        var howLate = parseInt(train.expected_departure_time.replace(":", "")) - parseInt(train.aimed_departure_time.replace(":", ""));
-        var bufferMinutes = process.env.MINUTES_TO_BE_LATE || 0;
-
-        if (train.status === 'LATE' && howLate > bufferMinutes) {
+        if (train.status === 'LATE') {
             lateTrains.push(train);
         } else if (train.status === 'CANCELLED') {
             cancelledTrains.push(train);
@@ -32,19 +27,18 @@ module.exports = function(results) {
                 if (lastTrain.train_uid === train.train_uid) {
                     found = true;
                     if (lastTrain.status != train.status || lastTrain.expected_departure_time != train.expected_departure_time) {
-                        console.log(howLate);
-                        if (train.status === 'LATE' && howLate > bufferMinutes) {
+                        if (train.status === 'LATE') {
                             newLateTrains.push(train);
                         } else if (train.status === 'CANCELLED') {
                             newCancelledTrains.push(train);
-                        } else {
+                        } else if (lastTrain.status === 'LATE') {
                             newOntimeTrains.push(train);
                         }
                     }
                 }
             });
             if (!found) {
-                if (train.status === 'LATE' && howLate > bufferMinutes) {
+                if (train.status === 'LATE') {
                     newLateTrains.push(train);
                 } else if (train.status === 'CANCELLED') {
                     newCancelledTrains.push(train);

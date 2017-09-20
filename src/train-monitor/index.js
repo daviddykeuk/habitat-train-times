@@ -1,5 +1,7 @@
 const assert = require('assert');
+const bufferProcessor = require('./train-buffer-status');
 const trainProcessor = require('./process-train-results');
+
 
 module.exports = function(args) {
     // requires a transport api and an event mechanism
@@ -8,7 +10,9 @@ module.exports = function(args) {
     var run = function() {
         // check that it works
         args.transportApi.getDepartures({ stationCode: args.stationCode }).then((response) => {
-            // create a timeout to check trains every X minutes
+
+            // use the buffer to change status
+            response = bufferProcessor(response);
 
             // add the result in to memory to serve in the API
             global.departures = response;
